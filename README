@@ -1,0 +1,110 @@
+===============================================================================
+======================= Tema 3 Protocoale de Comunicatie ======================
+============================= Costea Mihai 322CB ==============================
+===============================================================================
+
+Am citit manualul si am implementat conform lui cerintele prezentate.
+
+Chestii notabile:
+
+Formatul octetilor din fisierul message.log este in forma hexazecimala fara 
+prefixul 0x. 
+Am folosit socket UDP pentru conexiune deoarece am inteles din manual ca este
+mai uzual folosit din cauza rapiditatii acestuia, si pentru ca are un overhead
+mai mic ca mesajele transmise prin TCP.
+Am implementat citrea pointerilor primiti din mesaj si am facut-o intr-un mod
+recursiv (Nush daca e psibil sa primesc astfel de mesahe dar daca da s-ar mai
+reduce din spatiul folosit). Ce vreau sa spun e ca un pointer ar putea sa 
+pointeze catre un alt domeniu care si el ar contine un pointer. In felul asta
+avand mai multi pointeri intr-un mesaj => mai putin spatiu consumat intr-un 
+mesaj.
+Resolverul poate sa identifice doar type-urile descrise in enunt, daca acesta
+primeste un alt type il va ignora.
+Se cauta mereu o adresa de dns valida din fisierul dns_servers.conf
+Am implementat si sectiune questions sa fie interpretata din raspunsul unui
+mesaj pentru a fi cat mai aproape de formatul original al mesajelor.
+
+===============================================================================
+===============================================================================
+
+Functia get_server returneaza urmatorul server de dns care ar putea fi valid din
+fisier si urmeaza sa fie testata in afara functiei daca chiar este o adresa IP
+valida. In caz ca a terminat de citit fisierul procesul se inchide afisand un
+mesaj de eroare.
+
+===============================================================================
+===============================================================================
+
+Functia populate_sockaddr_in ataseaza initializeaza o structura cu adresa IP
+extrasa din functia anterior mentionata pentru a fi facuta o tranzactie prin DNS
+(port 53).
+
+===============================================================================
+===============================================================================
+
+Functia htonc a ramas nefolosita din cauza modului cum sunt dfinite structurile
+de date dar, nu am mai sters-o. Ideea era ca inversa bitii intr-un byte.
+
+===============================================================================
+=============================================================================== 
+
+Functia codificare_type primeste un string ascii care reprezinta un tip (pt dns)
+si intoarce o valoare codificata.
+
+===============================================================================
+===============================================================================
+
+Fucntia decodificare type face procesul invers functiei anterior mentionate.
+
+===============================================================================
+===============================================================================
+
+Functia construct_msg_query_header construieste un header pentru un mesaj DNS
+care permite o singura intrebare.
+
+===============================================================================
+===============================================================================
+
+Functia frequency_of_char este o functie carre cauta de cate ori este gasit un
+caracter intr-un sir ascii care se termina in \0.
+
+===============================================================================
+===============================================================================
+
+Functia make_question parseaza parametrii dati in linia de comanda ca sa 
+construiasca un question valid pe care sa il poata interpreta un server de DNS.
+
+===============================================================================
+===============================================================================
+
+Functia read_domain primeste un domain fie el in forma sa compresata sau in
+forma sa normala si intoarce valoarea necompresata a acelui domain_name si prin
+efect lateral intoarce si cati bytes au fost cititi din input pentru a ajunge
+la acea valoare + valoarea necondensata a domain-ului.
+
+===============================================================================
+===============================================================================
+
+Functia get_rdata interpreteaza campul rdata dat ca parametru pe baza campului
+type dat de asemenea ca parametru si intoarce un string ascii care reprezinta 
+ce se va scrie in fisier-ul de output (Adica un string human-readable cu formatul
+prezentat in tema).
+
+===============================================================================
+===============================================================================
+
+Functia interpret_message primeste ca parametru measjul pe care l-a primit de la
+serve si il interpreteaza folosindu-se de functiile anterior mentionate pentru
+a scrie in fisierul de output o valoare human readable.
+
+===============================================================================
+===============================================================================
+
+Feedback tema:
+Frumoasa tema btw. Chiar a fost o experienta placuta sa caut informatii in manual
+si am simtit pentru prima oara intr-o tema de casa ca chiar fac ceva practic si
+ca nu e o jucarie. Cel mai probabil din cauza faptului ca am comunicat cu servere
+live care au o intrebuintare pentru restul lumii, nu numai pentru a scrie eu tema.
+
+===============================================================================
+===============================================================================
